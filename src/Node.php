@@ -256,14 +256,14 @@ class Node implements \JsonSerializable {
         $class = \get_class($this);
         if (!isset(self::$childNames[$class])) {
             $names = [];
-            $reflectionClass = new \ReflectionClass($class);
-            foreach ($reflectionClass->getProperties() as $property) {
-                if ($property->name === "parent") {
-                    continue;
-                }
+            $vars = get_class_vars($class);
 
-                $names[] = $property->name;
+            foreach ($vars as $var) {
+                if ($var !== 'parent') {
+                    $names[] = $var;
+                }
             }
+
             self::$childNames[$class] = $names;
         }
 
